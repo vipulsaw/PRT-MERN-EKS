@@ -1,14 +1,26 @@
 # PRT-MERN-EKS
 
+## Application Snaps
+
 <img width="953" height="539" alt="image" src="https://github.com/user-attachments/assets/88b9baae-435f-4225-b4fa-0c8b041258fa" />
+
+## Mongo Apply
 
 <img width="959" height="379" alt="image" src="https://github.com/user-attachments/assets/8241f3a8-18aa-4e0f-a2d4-7427cbae0ad9" />
 
+## backend Apply
+
 <img width="959" height="257" alt="image" src="https://github.com/user-attachments/assets/7f1ec858-a43c-4272-9919-057d44d57507" />
+
+## Frontend Apply
 
 <img width="959" height="301" alt="image" src="https://github.com/user-attachments/assets/838563c4-4b49-45af-8956-8121d51be28e" />
 
+## backend Application
+
 <img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/cf205e35-2942-432a-812f-adfecfde17ed" />
+
+## Jenkins
 
 <img width="959" height="477" alt="image" src="https://github.com/user-attachments/assets/618f394e-5d4d-4c32-ac9a-ac80c3f1386d" />
 
@@ -135,7 +147,36 @@ pipeline {
 
 ```
 
+## Optional Prometheus and Grafana Integration 
+
+```
+snap install helm --classic
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+
+helm install prometheus prometheus-community/prometheus \
+  -n monitoring \
+  --set server.service.type=LoadBalancer \
+  --set server.persistentVolume.enabled=false \
+  --set alertmanager.persistentVolume.enabled=false \
+  --set pushgateway.enabled=false \
+  --set server.retention=2d
+
+helm install grafana grafana/grafana \
+  --namespace monitoring \
+  --set service.type=LoadBalancer \
+  --set persistence.enabled=false \
+  --set adminUser=admin \
+  --set adminPassword=admin123 \
+  --set service.port=3000 \
+  --set resources.requests.memory=256Mi \
+  --set resources.requests.cpu=250m
+```
+
 <img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/9270cc4e-0896-462b-8c15-9854a9d32808" />
+
+
 
 
 
