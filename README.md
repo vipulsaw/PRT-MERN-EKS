@@ -316,6 +316,11 @@ helm install grafana grafana/grafana \
 
 <img width="959" height="539" alt="image" src="https://github.com/user-attachments/assets/9270cc4e-0896-462b-8c15-9854a9d32808" />
 
+## Terraform
+
+<img width="524" height="422" alt="image" src="https://github.com/user-attachments/assets/a9c035ff-bd0d-4d9b-a857-68c46d95ab7e" />
+ 
+
 
 
 
