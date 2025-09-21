@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: mern
+  labels:
+    role: api
+    env: demo
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      role: api
+  template:
+    metadata:
+      labels:
+        role: api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "5000"
+        prometheus.io/path: "/metrics"
+    spec:
+      imagePullSecrets:
+      - name: ecr-registry-secret
+      containers:
+      - name: api
+        image: public.ecr.aws/h7a1o6c4/mern-backend:latest
+        imagePullPolicy: Always
+        env:
+          - name: MONGODB_URI
+            value: mongodb://mongo-service/wanderlust
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /ok
+            port: 5000
+          initialDelaySeconds: 2
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ok
+            port: 5000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1

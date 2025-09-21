@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: mern
+  labels:
+    role: frontend
+    env: demo
+spec: 
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels: 
+      role: frontend
+  template:
+    metadata:
+      labels:
+        role: frontend
+    spec: 
+      imagePullSecrets:
+      - name: ecr-registry-secret
+      containers:
+      - name: frontend
+        image: public.ecr.aws/h7a1o6c4/mern-frontend:latest
+        imagePullPolicy: Always
+        env:
+          - name: VITE_API_PATH
+            value: "http://a51c0ca053f034fbea934ca802e2936e-20994778.us-west-2.elb.amazonaws.com"
+        ports:
+        - containerPort: 5173
